@@ -8,8 +8,8 @@ export const SITE = {
   copyrightYear: 2026,
   approval: "Approved by AICTE · Affiliated to GGSIPU, New Delhi",
   address: {
-    line1: "Kabulpur, Kheri–Manjhawali Road, Naharpar",
-    line2: "Faridabad, Haryana – 121101, India",
+    // line1: "Kabulpur, Kheri–Manjhawali Road, Naharpar",
+    line1: "Faridabad, Haryana – 121101, India",
     mapsUrl: "https://maps.google.com/?q=Echelon+Institute+of+Technology+Faridabad",
   },
   phone: { label: "+91 99997 53763", href: "tel:+919999753763" },
