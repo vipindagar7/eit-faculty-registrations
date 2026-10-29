@@ -25,8 +25,8 @@ const STEPS = [
 ];
 
 const STEP_FIELDS = [
-  ["fullName", "designation", "designationOther", "mobile", "email", "altContact"],
-  ["schoolName", "schoolAddress", "city", "state", "board", "otherBoard", "schoolCategory", "schoolEmail", "schoolContact", "principalName", "principalContact"],
+  ["fullName", "designation", "mobile", "email", "altContact"],
+  ["schoolName", "schoolAddress", "board", "otherBoard", "schoolCategory", "schoolEmail", "schoolContact", "principalName", "principalContact"],
   ["classes", "class12Strength", "streams", "streamsOther", "careerGuidance", "guidanceSessions", "programmeInfo", "schoolVisit", "activities", "commModes", "contactTime", "contactTimeOther"],
   ["consentProcessing", "consentAccuracy", "consentMarketing"],
 ];
@@ -35,14 +35,11 @@ const stepOf = (field) => STEP_FIELDS.findIndex((f) => f.includes(field));
 const defaultValues = {
   fullName: "",
   designation: "",
-  designationOther: "",
   mobile: "",
   email: "",
   altContact: "",
   schoolName: "",
   schoolAddress: "",
-  city: "",
-  state: "",
   board: "",
   otherBoard: "",
   schoolCategory: "",
@@ -153,7 +150,7 @@ export function RegistrationForm() {
       if (checks.includes(false)) return;
 
       // Principal registering? Pre-fill the principal fields.
-      if (v.designation === "Principal") {
+      if (/principal|head of (the )?(school|institution)/i.test(v.designation) && !/vice/i.test(v.designation)) {
         if (!v.principalName) setValue("principalName", v.fullName.trim());
         if (!v.principalContact) setValue("principalContact", v.email.trim().toLowerCase());
       }

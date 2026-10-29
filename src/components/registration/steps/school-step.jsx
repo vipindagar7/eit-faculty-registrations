@@ -2,26 +2,17 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Controller, useWatch } from "react-hook-form";
-import { AtSign, BookOpen, Building2, Crown, Map, MapPin, PhoneCall, School } from "lucide-react";
+import { AtSign, BookOpen, Crown, MapPin, PhoneCall, School } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Field } from "../field";
 import { ChoiceField, SectionTitle, item } from "../form-parts";
-import { BOARDS, SCHOOL_CATEGORIES, STATES } from "@/lib/constants";
+import { BOARDS, SCHOOL_CATEGORIES } from "@/lib/constants";
 
 export function SchoolStep({ form, err }) {
   const { register, control, clearErrors } = form;
-  const [board, state] = useWatch({ control, name: ["board", "state"] });
-  const stateInfo = STATES.find((s) => s.value === state);
+  const board = useWatch({ control, name: "board" });
 
   return (
     <>
@@ -41,67 +32,16 @@ export function SchoolStep({ form, err }) {
       </motion.div>
 
       <motion.div variants={item}>
-        <Field label="School Address" htmlFor="schoolAddress" required error={err("schoolAddress")}>
+        <Field label="Full School Address" htmlFor="schoolAddress" required error={err("schoolAddress")}>
           <MapPin className="pointer-events-none absolute top-3 left-3.5 size-[18px] text-muted-foreground" />
           <Textarea
             id="schoolAddress"
-            rows={2}
-            placeholder="Street / sector, locality, PIN code"
+            rows={3}
+            placeholder="Street / sector, locality, city, district, state, PIN code"
             autoComplete="street-address"
-            className="min-h-20 pl-10"
+            className="min-h-24 pl-10"
             aria-invalid={!!err("schoolAddress")}
             {...register("schoolAddress")}
-          />
-        </Field>
-      </motion.div>
-
-      <motion.div variants={item} className="grid gap-5 sm:grid-cols-2">
-        <Field label="City / District" htmlFor="city" required icon={Building2} error={err("city")}>
-          <Input
-            id="city"
-            placeholder="e.g. Faridabad"
-            autoComplete="address-level2"
-            className="pl-10"
-            aria-invalid={!!err("city")}
-            {...register("city")}
-          />
-        </Field>
-
-        <Field label="State / UT" required icon={Map} error={err("state")}>
-          <Controller
-            control={control}
-            name="state"
-            render={({ field }) => (
-              <Select
-                value={field.value}
-                onValueChange={(v) => {
-                  field.onChange(v);
-                  clearErrors("state");
-                }}
-              >
-                <SelectTrigger id="state" className="pl-10" aria-invalid={!!err("state")}>
-                  <SelectValue placeholder="Select state / UT" />
-                </SelectTrigger>
-                <SelectContent className="max-h-72">
-                  <SelectGroup>
-                    <SelectLabel>States</SelectLabel>
-                    {STATES.filter((s) => !s.ut).map((s) => (
-                      <SelectItem key={s.value} value={s.value}>
-                        {s.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                  <SelectGroup>
-                    <SelectLabel>Union Territories</SelectLabel>
-                    {STATES.filter((s) => s.ut).map((s) => (
-                      <SelectItem key={s.value} value={s.value}>
-                        {s.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            )}
           />
         </Field>
       </motion.div>
@@ -112,13 +52,6 @@ export function SchoolStep({ form, err }) {
           required
           icon={BookOpen}
           error={err("board")}
-          hint={
-            board === "STATE"
-              ? stateInfo
-                ? `State board for ${stateInfo.name}: ${stateInfo.board}`
-                : "Select the state above to pick its board automatically"
-              : undefined
-          }
         >
           <Controller
             control={control}
@@ -137,7 +70,7 @@ export function SchoolStep({ form, err }) {
                 <SelectContent>
                   {BOARDS.map((b) => (
                     <SelectItem key={b.value} value={b.value}>
-                      {b.value === "STATE" && stateInfo ? `State Board – ${stateInfo.board}` : b.label}
+                      {b.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

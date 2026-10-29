@@ -1,42 +1,16 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { Controller, useWatch } from "react-hook-form";
-import {
-  BookUser,
-  ClipboardList,
-  Crown,
-  GraduationCap,
-  LoaderCircle,
-  Mail,
-  Phone,
-  ShieldCheck,
-  User,
-  UserCog,
-  Users,
-} from "lucide-react";
+import { motion } from "framer-motion";
+import { BookUser, LoaderCircle, Mail, Phone, ShieldCheck, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupCard } from "@/components/ui/radio-group";
 import { Field } from "../field";
 import { MobileOtpField } from "../mobile-otp-field";
 import { SectionTitle, item } from "../form-parts";
-import { DESIGNATIONS } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-
-const ICONS = {
-  Principal: Crown,
-  "Vice Principal": UserCog,
-  HOD: Users,
-  Coordinator: ClipboardList,
-  Teacher: GraduationCap,
-  Other: BookUser,
-};
 
 const digitsOnly = (e) => (e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "").slice(0, 10));
 
 export function PersonalStep({ form, err, verification, setVerification, dup }) {
-  const { register, control, getValues, setError, clearErrors } = form;
-  const designation = useWatch({ control, name: "designation" });
+  const { register, getValues, setError, clearErrors } = form;
 
   return (
     <>
@@ -70,71 +44,17 @@ export function PersonalStep({ form, err, verification, setVerification, dup }) 
       </motion.div>
 
       <motion.div variants={item}>
-        <Field label="Designation" required error={err("designation")}>
-          <Controller
-            control={control}
-            name="designation"
-            render={({ field }) => (
-              <RadioGroup
-                value={field.value}
-                onValueChange={(v) => {
-                  field.onChange(v);
-                  clearErrors("designation");
-                }}
-                className="grid grid-cols-2 gap-2.5 sm:grid-cols-3"
-                aria-label="Designation"
-              >
-                {DESIGNATIONS.map((d) => {
-                  const Icon = ICONS[d];
-                  const active = field.value === d;
-                  return (
-                    <RadioGroupCard
-                      key={d}
-                      value={d}
-                      className={cn(
-                        "flex cursor-pointer items-center gap-2.5 rounded-xl border px-3.5 py-3 text-left text-sm font-medium transition-all outline-none",
-                        "focus-visible:ring-[3px] focus-visible:ring-ring/40",
-                        active
-                          ? "border-primary bg-primary/12 text-foreground shadow-[0_0_24px_-6px_var(--primary)]"
-                          : "border-input bg-background/30 text-muted-foreground hover:border-primary/50 hover:text-foreground"
-                      )}
-                    >
-                      <motion.span
-                        animate={active ? { rotate: [0, -12, 10, 0], scale: 1.1 } : { scale: 1 }}
-                        transition={{ duration: 0.45 }}
-                      >
-                        <Icon className={cn("size-[18px]", active && "text-primary")} />
-                      </motion.span>
-                      {d}
-                    </RadioGroupCard>
-                  );
-                })}
-              </RadioGroup>
-            )}
+        <Field label="Designation" htmlFor="designation" required icon={BookUser} error={err("designation")}>
+          <Input
+            id="designation"
+            placeholder="e.g. Principal, PGT Physics, Career Counsellor"
+            autoComplete="organization-title"
+            className="pl-10"
+            aria-invalid={!!err("designation")}
+            {...register("designation")}
           />
         </Field>
       </motion.div>
-
-      <AnimatePresence initial={false}>
-        {designation === "Other" && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden px-0.5 pb-0.5"
-          >
-            <Field label="Your Designation" htmlFor="designationOther" required icon={BookUser} error={err("designationOther")}>
-              <Input
-                id="designationOther"
-                placeholder="e.g. Career Counsellor"
-                className="pl-10"
-                aria-invalid={!!err("designationOther")}
-                {...register("designationOther")}
-              />
-            </Field>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <motion.div variants={item}>
         <MobileOtpField

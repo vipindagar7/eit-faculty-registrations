@@ -20,7 +20,7 @@ const DATA_TABLE = [
   {
     category: "School / institution details",
     items:
-      "School name, address, city/district, state, board, category, school official email and contact number, name and official email/contact of the Principal / Head of Institution",
+      "School name, full address, board, category, school official email and contact number, name and official email/contact of the Principal / Head of Institution",
     purpose: "Plan school outreach, coordinate visits, sessions and exhibition participation",
   },
   {

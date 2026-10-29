@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BOARDS, DESIGNATIONS, OUTREACH, SCHOOL_CATEGORIES, STATES } from "./constants";
+import { BOARDS, OUTREACH, SCHOOL_CATEGORIES } from "./constants";
 
 /** Normalises Indian mobile input: strips spaces, +91, 0 prefix. */
 export function normalizePhone(value = "") {
@@ -42,17 +42,13 @@ const personalShape = {
     .min(3, "Enter your full name")
     .max(100, "Name is too long")
     .regex(/^[A-Za-z.'\s-]+$/, "Name can contain letters, spaces, dots and hyphens only"),
-  designation: pick(DESIGNATIONS, "Select your designation"),
-  designationOther: opt,
+  designation: req("Enter your designation").min(2, "Enter your designation").max(80, "Designation is too long"),
   mobile: phoneSchema,
   email: emailSchema,
   altContact: z.string().trim().optional().default(""),
 };
 
 function refinePersonal(d, ctx) {
-  if (d.designation === "Other" && (d.designationOther || "").length < 2) {
-    ctx.addIssue({ code: "custom", path: ["designationOther"], message: "Enter your designation" });
-  }
   if (d.altContact) {
     if (!isValidPhone(d.altContact)) {
       ctx.addIssue({ code: "custom", path: ["altContact"], message: "Enter a valid 10-digit mobile number" });
@@ -65,9 +61,9 @@ function refinePersonal(d, ctx) {
 /* ── Step 2: School / institution details ──────────────────────────────── */
 const schoolShape = {
   schoolName: req("Enter the school / institution name").min(3, "Enter the school name").max(200),
-  schoolAddress: req("Enter the school address").min(8, "Enter the complete address").max(400),
-  city: req("Enter city / district").min(2, "Enter city / district").max(80),
-  state: z.string().refine((v) => STATES.some((s) => s.value === v), "Select the state / UT"),
+  schoolAddress: req("Enter the full school address")
+    .min(15, "Enter the full address with city, state and PIN code")
+    .max(500, "Address is too long"),
   board: pick(
     BOARDS.map((b) => b.value),
     "Select the school board"

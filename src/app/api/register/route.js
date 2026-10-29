@@ -2,7 +2,7 @@ import { getDb, nextRegistrationId } from "@/lib/mongodb";
 import { readVerificationToken } from "@/lib/otp";
 import { appendRegistrationRow } from "@/lib/sheets";
 import { registerPayloadSchema, normalizePhone } from "@/lib/validation";
-import { boardLabel, designationLabel, STATES } from "@/lib/constants";
+import { boardLabel } from "@/lib/constants";
 import { SITE } from "@/lib/site-config";
 import { duplicateField, fail, getClientIp, json, readBody } from "@/lib/http";
 
@@ -45,7 +45,6 @@ export async function POST(request) {
       return fail("This alternative number is already registered", 409, { field: "altContact" });
     }
 
-    const state = STATES.find((s) => s.value === data.state);
     const now = new Date();
     const ip = getClientIp(request);
     const regId = await nextRegistrationId(db);
@@ -54,7 +53,7 @@ export async function POST(request) {
       regId,
       // Faculty personal & contact
       fullName: clean(data.fullName),
-      designation: designationLabel(data),
+      designation: clean(data.designation),
       mobile,
       mobileVerified: true,
       email: data.email,
@@ -64,8 +63,6 @@ export async function POST(request) {
       school: {
         name: clean(data.schoolName),
         address: clean(data.schoolAddress),
-        city: clean(data.city),
-        state: state?.name ?? data.state,
         board: data.board,
         boardLabel: boardLabel(data),
         category: data.schoolCategory,
@@ -133,7 +130,6 @@ export async function POST(request) {
         email: doc.email,
         mobile: doc.mobile,
         schoolName: doc.school.name,
-        location: `${doc.school.city}, ${doc.school.state}`,
         boardLabel: doc.school.boardLabel,
       },
     });

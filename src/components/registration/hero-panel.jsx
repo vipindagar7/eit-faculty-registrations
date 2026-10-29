@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { useGSAP } from "@gsap/react";
-import { FlaskConical, Lightbulb, Microscope, Rocket, ShieldCheck } from "lucide-react";
+import { Lightbulb, Quote, ShieldCheck } from "lucide-react";
 import { EVENT_NAME } from "@/lib/constants";
 import { SITE } from "@/lib/site-config";
 
@@ -14,12 +14,6 @@ gsap.registerPlugin(useGSAP, MotionPathPlugin, DrawSVGPlugin);
 
 // Ellipse paths (rx 120, ry 44) centred at 150,150 — rotated via group transforms.
 const ORBIT = "M30,150 a120,44 0 1,0 240,0 a120,44 0 1,0 -240,0";
-
-const HIGHLIGHTS = [
-  { icon: Lightbulb, text: "Brainstorm sessions" },
-  { icon: Microscope, text: "Live science exhibits" },
-  { icon: Rocket, text: "Innovation showcase" },
-];
 
 function Atom() {
   return (
@@ -82,6 +76,7 @@ export function HeroPanel() {
           tl.from(".orbit-path", { drawSVG: 0, scale: 0.4, opacity: 0, transformOrigin: "50% 50%", duration: 1.2, stagger: 0.12 })
             .from(".nucleus", { scale: 0, transformOrigin: "50% 50%", duration: 0.8, ease: "back.out(3)" }, "<0.2")
             .from(".hero-word", { yPercent: 110, duration: 0.9, stagger: 0.07 }, 0.15)
+            .from(".tag-word", { y: 18, opacity: 0, scale: 0.9, duration: 0.6, stagger: 0.18, ease: "back.out(2)" }, 0.6)
             .from(".hero-fade", { y: 24, opacity: 0, duration: 0.8, stagger: 0.1 }, "-=0.5");
 
           [0, 1, 2].forEach((i) => {
@@ -93,7 +88,11 @@ export function HeroPanel() {
             });
           });
           gsap.to(".atom", { rotation: 360, duration: 60, ease: "none", repeat: -1, transformOrigin: "50% 50%" });
-          gsap.to(".nucleus", { scale: 1.12, duration: 1.4, yoyo: true, repeat: -1, ease: "sine.inOut", transformOrigin: "50% 50%" });
+          gsap.fromTo(
+            ".nucleus",
+            { scale: 1 },
+            { scale: 1.12, duration: 1.4, delay: 1.6, yoyo: true, repeat: -1, ease: "sine.inOut", transformOrigin: "50% 50%", immediateRender: false }
+          );
           gsap.to(".float-chip", { y: -8, duration: 2.2, yoyo: true, repeat: -1, ease: "sine.inOut", stagger: 0.4 });
         }
       );
@@ -103,57 +102,67 @@ export function HeroPanel() {
   );
 
   const words = EVENT_NAME.split(" ");
+  const tagline = ["Ideas.", "Insights.", "Innovation."];
 
   return (
-    <section ref={ref} className="relative flex flex-col gap-8 lg:sticky lg:top-10">
+    <section ref={ref} className="relative flex flex-col gap-7">
       <Image
         src="/logos/eit-ggsipu-logo.png"
         alt="Echelon Institute of Technology – Affiliated to Guru Gobind Singh Indraprastha University"
         width={1400}
         height={320}
         priority
-        className="hero-fade h-auto w-full max-w-[440px]"
+        className="hero-fade h-auto w-full max-w-[420px]"
       />
-      <div className="hero-fade inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 text-xs font-semibold tracking-wider text-primary uppercase">
-        <FlaskConical className="size-3.5" />
-        Faculty Registration
-      </div>
 
-      <div className="relative">
-        <h1 className="font-display text-4xl leading-[1.05] font-bold tracking-tight sm:text-5xl xl:text-6xl">
+      <div>
+        <h1 className="font-display text-4xl leading-[1.05] font-bold tracking-tight uppercase sm:text-5xl xl:text-[3.4rem]">
           {words.map((w, i) => (
             <span key={i} className="mr-[0.25em] inline-block overflow-hidden pb-1 align-bottom">
               <span className={`hero-word inline-block ${i >= words.length - 2 ? "text-gradient" : ""}`}>{w}</span>
             </span>
           ))}
         </h1>
-        <p className="hero-fade mt-5 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Principals, HODs, coordinators and teachers — register your school with {SITE.institute} for the
-          exhibition, career guidance sessions and student activities.
+        <p className="mt-4 flex flex-wrap gap-x-3 font-display text-xl font-semibold tracking-wide sm:text-2xl">
+          {tagline.map((t, i) => (
+            <span key={t} className={`tag-word inline-block ${["text-primary", "text-violet", "text-accent"][i]}`}>
+              {t}
+            </span>
+          ))}
         </p>
       </div>
 
-      <div className="relative mx-auto hidden aspect-square w-full max-w-[340px] lg:block">
+      <div className="hero-fade max-w-xl space-y-4 text-base leading-relaxed text-muted-foreground sm:text-[17px]">
+        <p className="text-lg font-semibold text-foreground sm:text-xl">
+          Welcome to {SITE.institute}.
+        </p>
+        <p>
+          Today is about exchanging perspectives, exploring new possibilities in science and technology and
+          strengthening the connection between schools and higher education.
+        </p>
+        <p>
+          Please complete the <span className="font-medium text-foreground">faculty registration form</span>{" "}
+          <span className="lg:hidden">below</span>
+          <span className="hidden lg:inline">alongside</span> before we begin the session.
+        </p>
+        <p>We look forward to meaningful conversations, fresh ideas and new opportunities for collaboration.</p>
+      </div>
+
+      <blockquote className="hero-fade relative max-w-xl rounded-2xl border border-primary/25 bg-primary/5 py-5 pr-5 pl-12 text-[15px] leading-relaxed italic text-foreground/90 sm:text-base">
+        <Quote className="absolute top-5 left-4 size-5 rotate-180 text-accent" aria-hidden />
+        The most meaningful progress in education begins when we come together to challenge ideas, share knowledge
+        and shape what comes next.
+      </blockquote>
+
+      <div className="relative mx-auto hidden aspect-square w-full max-w-[280px] lg:block">
         <Atom />
-        <div className="float-chip glass absolute top-6 -left-4 flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium">
+        <div className="float-chip glass absolute top-4 -left-6 flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium">
           <ShieldCheck className="size-4 text-success" /> OTP-secured
         </div>
-        <div className="float-chip glass absolute -right-2 bottom-10 flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium">
+        <div className="float-chip glass absolute -right-6 bottom-8 flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium">
           <Lightbulb className="size-4 text-accent" /> 4 quick steps
         </div>
       </div>
-
-      <ul className="flex flex-wrap gap-2.5">
-        {HIGHLIGHTS.map(({ icon: Icon, text }) => (
-          <li
-            key={text}
-            className="hero-fade flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-3.5 py-2 text-sm"
-          >
-            <Icon className="size-4 text-primary" />
-            {text}
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

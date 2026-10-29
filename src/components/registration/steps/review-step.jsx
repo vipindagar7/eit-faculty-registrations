@@ -6,7 +6,7 @@ import { Pencil, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SectionTitle, item } from "../form-parts";
-import { boardLabel, designationLabel, listLabel, stateName } from "@/lib/constants";
+import { boardLabel, listLabel } from "@/lib/constants";
 import { normalizePhone } from "@/lib/validation";
 import { SITE } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ export function reviewSections(v) {
       title: "Personal & Contact",
       rows: [
         ["Full Name", v.fullName],
-        ["Designation", designationLabel(v)],
+        ["Designation", v.designation],
         ["Mobile", v.mobile ? `+91 ${normalizePhone(v.mobile)}` : "", true],
         ["Official Email", v.email?.trim().toLowerCase()],
         ["Alternative No.", v.altContact ? `+91 ${normalizePhone(v.altContact)}` : "—"],
@@ -30,8 +30,6 @@ export function reviewSections(v) {
       rows: [
         ["School", v.schoolName],
         ["Address", v.schoolAddress],
-        ["City / District", v.city],
-        ["State", stateName(v.state)],
         ["Board", boardLabel(v)],
         ["Category", v.schoolCategory],
         ["School Email", v.schoolEmail],

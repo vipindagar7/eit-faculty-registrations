@@ -45,7 +45,6 @@ export function SuccessCard({ registration, onReset }) {
     ["Mobile", `+91 ${registration.mobile}`],
     ["Email", registration.email],
     ["School", registration.schoolName],
-    ["Location", registration.location],
     ["Board", registration.boardLabel],
   ];
 
