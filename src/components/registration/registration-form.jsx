@@ -27,7 +27,7 @@ const STEPS = [
 const STEP_FIELDS = [
   ["fullName", "designation", "mobile", "email", "altContact"],
   ["schoolName", "schoolAddress", "board", "otherBoard", "schoolCategory", "schoolEmail", "schoolContact", "principalName", "principalContact"],
-  ["classes", "class12Strength", "streams", "streamsOther", "careerGuidance", "guidanceSessions", "programmeInfo", "schoolVisit", "activities", "commModes", "contactTime", "contactTimeOther"],
+  ["guidanceStage", "class12Strength", "streams", "streamsOther", "careerGuidance", "guidanceSessions", "programmeInfo", "schoolVisit", "activities", "commModes", "contactTime", "contactTimeOther"],
   ["consentProcessing", "consentAccuracy", "consentMarketing"],
 ];
 const stepOf = (field) => STEP_FIELDS.findIndex((f) => f.includes(field));
@@ -47,7 +47,7 @@ const defaultValues = {
   schoolContact: "",
   principalName: "",
   principalContact: "",
-  classes: [],
+  guidanceStage: "",
   class12Strength: "",
   streams: [],
   streamsOther: "",

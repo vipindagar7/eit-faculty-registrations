@@ -21,8 +21,8 @@ const COLUMNS = [
   ["School Contact Number", (r) => r.school.contact],
   ["Principal / Head Name", (r) => r.school.principalName],
   ["Principal Email / Contact", (r) => r.school.principalContact],
-  ["Classes Seeking Guidance", (r) => list(r.outreach.classes)],
-  ["Approx. Class XII Students", (r) => r.outreach.class12Strength],
+  ["Stage Benefiting Most from Guidance", (r) => r.outreach.guidanceStage],
+  ["Class XII Enrolment (approx.)", (r) => r.outreach.class12Strength],
   [
     "Streams Offered",
     (r) => list(r.outreach.streams.map((s) => (s === "Other" && r.outreach.streamsOther ? `Other (${r.outreach.streamsOther})` : s))),

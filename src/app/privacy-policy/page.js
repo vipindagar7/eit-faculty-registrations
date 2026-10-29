@@ -26,7 +26,7 @@ const DATA_TABLE = [
   {
     category: "Outreach preferences",
     items:
-      "Classes seeking guidance, approximate Class XII strength, streams offered, career-guidance practices, interest in sessions, programme information and school visits, preferred activities, communication mode and time",
+      "Stage at which students benefit most from guidance, approximate Class XII enrolment, streams offered, career-guidance practices, interest in sessions, programme information and school visits, preferred activities, communication mode and time",
     purpose: "Design relevant guidance sessions and activities; contact you in your preferred way",
   },
   {
@@ -254,7 +254,7 @@ export default function PrivacyPolicyPage() {
           <p>
             This form is meant only for teachers, principals and other school staff aged 18 or above. We do not
             knowingly collect personal data of children (persons under 18) through this form. Information about
-            classes or streams is collected only as aggregate, non-personal school information.
+            enrolment, guidance stages or streams is collected only as aggregate, non-personal school information.
           </p>
         </PolicySection>
 

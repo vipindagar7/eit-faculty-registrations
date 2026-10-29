@@ -42,8 +42,8 @@ export function reviewSections(v) {
       step: 2,
       title: "Student Outreach",
       rows: [
-        ["Classes", listLabel(v.classes)],
-        ["Class XII strength", v.class12Strength],
+        ["Guidance stage", v.guidanceStage],
+        ["Class XII enrolment", v.class12Strength],
         ["Streams", listLabel(v.streams, v.streamsOther)],
         ["Career guidance", v.careerGuidance],
         ["EIT guidance sessions", v.guidanceSessions],

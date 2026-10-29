@@ -10,7 +10,7 @@ export const SCHOOL_CATEGORIES = ["Private", "Government", "Government-Aided"];
 
 // Student outreach & admission potential
 export const OUTREACH = {
-  classes: ["IX", "X", "XI", "XII", "Pass-outs"],
+  guidanceStage: ["Classes IX–X", "Classes XI–XII", "After Class XII", "At all these stages"],
   class12Strength: ["Below 50", "50–100", "101–200", "201–500", "Above 500"],
   streams: ["PCM", "PCB", "Commerce", "Humanities", "Other"],
   careerGuidance: ["Yes", "No", "Partially"],

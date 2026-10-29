@@ -95,8 +95,8 @@ function refineSchool(d, ctx) {
 
 /* ── Step 3: Student outreach & admission potential ────────────────────── */
 const outreachShape = {
-  classes: multi(OUTREACH.classes, "Select at least one class"),
-  class12Strength: pick(OUTREACH.class12Strength, "Select approximate Class XII strength"),
+  guidanceStage: pick(OUTREACH.guidanceStage, "Select a stage"),
+  class12Strength: pick(OUTREACH.class12Strength, "Select approximate Class XII enrolment"),
   streams: multi(OUTREACH.streams, "Select at least one stream"),
   streamsOther: opt,
   careerGuidance: pick(OUTREACH.careerGuidance, "Please select an option"),

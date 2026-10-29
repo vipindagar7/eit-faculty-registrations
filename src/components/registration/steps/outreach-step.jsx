@@ -9,8 +9,11 @@ import { ChoiceField, SectionTitle } from "../form-parts";
 import { OUTREACH } from "@/lib/constants";
 
 const QUESTIONS = [
-  { name: "classes", label: "Classes from which students may seek guidance", type: "multiple", hint: "Select all that apply" },
-  { name: "class12Strength", label: "Approximate number of Class XII students in the school" },
+  {
+    name: "guidanceStage",
+    label: "At which stage do you think students would benefit most from career guidance and higher-education counselling?",
+  },
+  { name: "class12Strength", label: "Approximately how many students are currently enrolled in Class XII at your school?" },
   { name: "streams", label: "Streams offered by the school", type: "multiple", hint: "Select all that apply" },
   { name: "careerGuidance", label: "Do you handle career guidance or higher-education counselling?" },
   { name: "guidanceSessions", label: "Would your school be interested in EIT career guidance sessions?" },

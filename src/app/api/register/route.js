@@ -73,7 +73,7 @@ export async function POST(request) {
       },
       // Student outreach & admission potential
       outreach: {
-        classes: data.classes,
+        guidanceStage: data.guidanceStage,
         class12Strength: data.class12Strength,
         streams: data.streams,
         streamsOther: data.streams.includes("Other") ? clean(data.streamsOther) : null,
